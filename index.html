@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Itachi Uchiha - Sharingan Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;900&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-glow: radial-gradient(circle at center, #2b0404 0%, #110101 70%, #000000 100%);
+            --card-glow: rgba(239, 68, 68, 0.35);
+            --card-border: rgba(239, 68, 68, 0.4);
+            --theme-accent: #ef4444;
+            --accent-glow: rgba(239, 68, 68, 0.9);
+            --sub-color: #fca5a5;
+            --panel-bg: rgba(15, 1, 1, 0.88);
+            --badge-bg: linear-gradient(90deg, #dc2626, #7f1d1d);
+        }
+
+        body {
+            background: #030712;
+            background-image: var(--bg-glow);
+            font-family: 'Noto Sans JP', 'Yu Gothic', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100dvh;
+            overflow: hidden;
+        }
+
+        /* Contenedor principal tipo Smartphone Vertical */
+        .mobile-container {
+            width: 92%;
+            height: 94dvh;
+            max-width: 400px;
+            max-height: 800px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px 14px 14px 14px;
+            position: relative;
+            background-color: #030712;
+            background-image: radial-gradient(circle at 50% 40%, rgba(43, 4, 4, 0.4) 0%, rgba(3, 7, 18, 0.98) 80%);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 40px var(--card-glow);
+            overflow: hidden;
+        }
+
+        /* Cabecera */
+        .mobile-header {
+            position: relative;
+            z-index: 25;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hero-quote-header {
+            font-size: 0.62rem;
+            font-weight: 900;
+            color: var(--sub-color);
+            letter-spacing: 1px;
+            border-left: 2px solid var(--theme-accent);
+            padding-left: 8px;
+        }
+
+        .quote-subtext {
+            font-size: 0.52rem;
+            color: #94a3b8;
+            display: block;
+            margin-top: 2px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Área Central (Sharingan Giratorio de Fondo + Itachi) */
+        .mobile-center-stage {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Sharingan CSS Giratorio en el fondo del centro */
+        .sharingan-bg-wrapper {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            opacity: 0.85;
+        }
+
+        .red-shadow {
+            box-shadow: 0px 0px 40px #e85253;
+            border-radius: 50%;
+            animation: spin 6s linear infinite;
+        }
+
+        #sharingan {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            background-color: #e85253;
+            border-radius: 50%;
+            box-shadow: inset 0px 0px 25px #450a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #inner-circle {
+            position: relative;
+            width: 65%;
+            height: 65%;
+            border: 1.5px dotted #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #inner-circle::before {
+            content: '';
+            display: inline-block;
+            width: 20%;
+            height: 20%;
+            border-radius: 50%;
+            background-color: black;
+            box-shadow: 0px 0px 20px black;
+        }
+
+        .tomoe {
+            position: absolute;
+            display: inline-block;
+            width: 15%;
+            height: 15%;
+            background-color: black;
+            border-radius: 50%;
+        }
+
+        .tomoe::after {
+            position: absolute;
+            content: '';
+            display: inline-block;
+            width: 50%;
+            height: 50%;
+            background-color: black;
+        }
+
+        .tomoe:first-child {
+            top: 12.5%;
+            right: 12.5%;
+            transform: translate(50%, -25%);
+        }
+        .tomoe:first-child:after {
+            top: 2%;
+            left: 70%;
+            border-radius: 0 100% 0 100%;
+            transform: skew(15deg, 15deg) rotate(-15deg);
+        }
+
+        .tomoe:nth-child(2) {
+            top: 25%;
+            left: 0;
+            transform: translate(-45%, 15%);
+        }
+        .tomoe:nth-child(2):after {
+            bottom: 60%;
+            border-radius: 100% 0;
+            transform: rotate(-25deg) skew(-25deg);
+        }
+
+        .tomoe:last-child {
+            bottom: 0;
+            right: 37.5%;
+            transform: translate(50%, 30%);
+        }
+        .tomoe:last-child:after {
+            top: 70%;
+            right: 15%;
+            border-radius: 100% 0;
+            transform: skew(-15deg);
+        }
+
+        /* Render de Itachi flotando encima del Sharingan con Glow */
+        .character-root {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            bottom: -18%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .character-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center bottom;
+            filter: 
+                drop-shadow(0 15px 30px rgba(0, 0, 0, 0.95)) 
+                drop-shadow(0 0 25px rgba(232, 82, 83, 0.65)) 
+                drop-shadow(0 0 50px rgba(239, 68, 68, 0.35));
+            animation: float-character 6s ease-in-out infinite;
+        }
+
+        /* Panel Inferior */
+        .mobile-footer {
+            position: relative;
+            z-index: 25;
+            background: var(--panel-bg);
+            border: 1px solid var(--card-border);
+            padding: 12px;
+            border-radius: 14px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px var(--accent-glow);
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        .subtitle-tag {
+            font-size: 0.58rem;
+            color: var(--theme-accent);
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .play-btn {
+            background: var(--theme-accent);
+            border: none;
+            color: #030712;
+            padding: 6px 18px;
+            font-size: 0.65rem;
+            font-weight: 900;
+            cursor: pointer;
+            border-radius: 12px;
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .music-player {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 6px;
+        }
+
+        .player-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-title {
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 70%;
+        }
+
+        .time-display {
+            font-size: 0.52rem;
+            font-family: monospace;
+            color: #94a3b8;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            position: relative;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--theme-accent);
+            position: absolute;
+            top: 0; left: 0;
+            border-radius: 2px;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(-360deg); }
+        }
+
+        @keyframes float-character { 
+            0%, 100% { transform: translateY(0px); } 
+            50% { transform: translateY(-6px); } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        
+        <!-- Cabecera -->
+        <header class="mobile-header">
+            <div class="hero-quote-header">
+                <span>Even if you're weak, there are things you can protect.</span>
+                <span class="quote-subtext">Akatsuki // Mangekyo Sharingan</span>
+            </div>
+        </header>
+
+        <!-- Centro: Sharingan girando atrás + Itachi enfrente -->
+        <main class="mobile-center-stage">
+            <div class="sharingan-bg-wrapper">
+                <div class="red-shadow">
+                    <div id="sharingan">
+                        <div id="inner-circle">
+                            <span class="tomoe"></span>
+                            <span class="tomoe"></span>
+                            <span class="tomoe"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-root">
+                <img src="itachi.png" alt="Itachi Uchiha" class="character-img">
+            </div>
+        </main>
+
+        <!-- Pie / Panel Inferior -->
+        <footer class="mobile-footer">
+            <div class="title-row">
+                <div>
+                    <span class="subtitle-tag">Rouge Ninja of Konoha</span>
+                    <h1 class="main-title">ITACHI</h1>
+                </div>
+                <button class="play-btn" id="play-trigger">Play</button>
+            </div>
+
+            <div class="music-player">
+                <audio id="audio-element" src="itachi-ost.mp3" preload="auto"></audio>
+
+                <div class="player-info">
+                    <span class="track-title">Itachi Uchiha - Akatsuki Theme</span>
+                    <span class="time-display" id="time-track">0:00 / 0:00</span>
+                </div>
+                
+                <div class="progress-container" id="progress-cont">
+                    <div class="progress-bar" id="progress-actual"></div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const audio = document.getElementById('audio-element');
+        const playBtn = document.getElementById('play-trigger');
+        const progressContainer = document.getElementById('progress-cont');
+        const progressBar = document.getElementById('progress-actual');
+        const timeDisplay = document.getElementById('time-track');
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().then(() => playBtn.textContent = 'Pause').catch(err => console.error(err));
+            } else {
+                audio.pause();
+                playBtn.textContent = 'Play';
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${percent}%`;
+            const mins = Math.floor(audio.currentTime / 60);
+            const secs = Math.floor(audio.currentTime % 60);
+            timeDisplay.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs} / ${Math.floor(audio.duration/60)}:${Math.floor(audio.duration%60) < 10 ? '0':''}${Math.floor(audio.duration%60)}`;
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+        });
+    </script>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+JP:wght@500;900&display=swap" rel="stylesheet">
+<style>
+
+     .main-title {
+            font-size: 2.6rem;
+            font-weight: 400; /* Anton viene lista en grosor pesado */
+            color: #ffffff;
+            line-height: 1;
+            letter-spacing: 3px;
+            text-transform: uppercase; /* Para que quede en mayúsculas imponentes estilo póster */
+            text-shadow: 0 0 15px var(--accent-glow), 0 0 30px rgba(239, 68, 68, 0.8);
+            font-family: 'Anton', sans-serif;
+        }
+        .subtitle-tag {
+            font-size: 0.55rem;
+            color: var(--theme-accent);
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+    </style>
+</body>
+</html>
